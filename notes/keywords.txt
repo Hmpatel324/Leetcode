@@ -1,0 +1,8 @@
+learning purposes = review a concept or walkthrough a problems
+difficulty = leetcode problem difficulty
+helper = shows if this problem helps explain another problem, or uses a helper problem
+
+tags:
+acyclic
+arrays
+anagram 
