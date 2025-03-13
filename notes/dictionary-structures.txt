@@ -1,0 +1,14 @@
+Dictionary
+----------
+
+# Create a defaultdict with default value 0
+b = defaultdict(int)
+
+# Count dictionary
+# from collections import Counter
+Counter(['apple','red','apple','red','red','pear'])
+Counter({'red': 3, 'apple': 2, 'pear': 1})
+set(collections.Counter(t).items())
+
+# delete item from dictionary
+del cache[letter]

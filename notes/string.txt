@@ -1,0 +1,5 @@
+Strings
+-------
+
+a = "hello-world"
+len(a) 
