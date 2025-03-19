@@ -1,0 +1,24 @@
+List
+----
+
+# get index and value in List
+for index, x in enumerate(xs)
+
+# Map
+# The map() function is used to apply a given function to every item of an iterable, such as a list or tuple, and returns a map object (which is an iterator)
+a = [1, 2, 3, 4]
+res = list(map(lambda x: x * 2, a))
+
+# Reduce - apply a function to elements in a list in sequence and render final value
+a = [1, 2, 3, 4, 5]
+res = reduce(lambda x, y: x + y, a)
+* note left value is the accumulated value
+
+# if all items true
+all(iterable)
+
+# if one or more is true
+any(iterable)
+
+# reverse list
+reverse(iter)
