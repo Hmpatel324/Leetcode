@@ -2,7 +2,7 @@
 Link: <url>
 Difficulty: <difficulty-level>
 
-Problem
+Problem:
 
 
 Input / Output:
