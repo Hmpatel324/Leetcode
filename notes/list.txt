@@ -22,3 +22,21 @@ any(iterable)
 
 # reverse list
 reverse(iter)
+
+# Append - adds as another element in existing list
+list1 = [1,2,3]
+list1.append(4)
+list1 == [1,2,3,4]
+list1.append([3])
+list1 == [1,2,3,4,[3]]
+
+# + operator creates a new list
+list1 = [1,2]
+list2 = [4,5]
+list3 = list1 + list2
+
+# Extend - adds all elements in a iterable to the end of a list
+list1 = [2,4,5]
+list2 = [6,8]
+list1.extend(list2)
+list1 == [2,4,5,6,8]
