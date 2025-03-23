@@ -12,3 +12,6 @@ set(collections.Counter(t).items())
 
 # delete item from dictionary
 del cache[letter]
+
+# get keys in a dictionary
+cache.keys()
