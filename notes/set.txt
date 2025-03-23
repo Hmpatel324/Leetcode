@@ -1,0 +1,14 @@
+Set
+----
+
+# new set
+cache = set()
+
+# add 
+adds item to a Set
+cache.add(1)
+
+# remove
+removes item from set
+will throw key error if not in set
+cache.remove(1)

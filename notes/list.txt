@@ -40,3 +40,6 @@ list1 = [2,4,5]
 list2 = [6,8]
 list1.extend(list2)
 list1 == [2,4,5,6,8]
+
+# range - iterable 0 to range val -1
+range(6) == [0,1,2,3,4,5]
