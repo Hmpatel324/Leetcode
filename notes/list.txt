@@ -48,3 +48,10 @@ range(6) == [0,1,2,3,4,5]
 enumerate([c,e,l,t,i,c,s])
 => [ (0,c) , (1,e), (2,l)....]
 
+# stack functionality - LIFO
+append() => adds to end
+pop() => pops at end
+
+# queue functionality - FIFO
+append() => add to end
+pop(0) => pop at 0
