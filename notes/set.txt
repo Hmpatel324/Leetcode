@@ -12,3 +12,9 @@ cache.add(1)
 removes item from set
 will throw key error if not in set
 cache.remove(1)
+
+# intersection
+s1 & s2
+
+# union 
+s1 or s2
