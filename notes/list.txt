@@ -55,3 +55,6 @@ pop() => pops at end
 # queue functionality - FIFO
 append() => add to end
 pop(0) => pop at 0
+
+# 0 list
+[0] * num
