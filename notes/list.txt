@@ -62,3 +62,7 @@ pop(0) => pop at 0
 
 # 0 list
 [0] * num
+
+# sort
+nums.sort()
+sorts in place
