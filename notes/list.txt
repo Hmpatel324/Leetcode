@@ -66,3 +66,7 @@ pop(0) => pop at 0
 # sort
 nums.sort()
 sorts in place
+
+# sorted
+sorted(<list name>, reverse=<boolean for descending>)
+returns new sorted list
