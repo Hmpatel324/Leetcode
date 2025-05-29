@@ -70,3 +70,6 @@ sorts in place
 # sorted
 sorted(<list name>, reverse=<boolean for descending>)
 returns new sorted list
+
+# deep copy
+[i for i in curr_path]
