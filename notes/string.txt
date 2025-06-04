@@ -3,3 +3,6 @@ Strings
 
 a = "hello-world"
 len(a) 
+
+s.lower()
+make string lowercase
