@@ -18,3 +18,4 @@ s1 & s2
 
 # union 
 s1 or s2
+s1|s2
