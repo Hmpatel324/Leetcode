@@ -1,0 +1,62 @@
+SYSTEM DESIGN - STORAGE
+
+
+Goal:
+1. Make CRUD Faster
+2. Make data reliable/fault tolerant 
+
+Random-Access Memory (RAM) - Temporary storage
+    Pro: Quick Write
+    Con: Flash power then lose everything
+
+Hard Drive Disk (HDD) - Permanent storage
+    Pro: Persistent data retention
+    Con: Slow read/write speeds (ideally we want data CLOSE together on disk)
+
+
+Array based read/write - One would need to iterate through entire array looking for values o(n)
+    optimization - always write at end and read from bottom up. This makes reads slower. 
+
+
+Adding a Database index (on a specific field) increases READ speed but costs a higher WRITE speed
+    Hash Index:
+        Hash function blackbox function that maps input to a output this allows for easily scanning for the key.
+        In the event of a linear array then the value is stored at h(key)=v, so at index value
+            2 ways of solving collision:
+                1. probing - moving to the right
+                2. linked list at value
+        
+        Pro:
+            o(1) read and write
+        Con:
+            keys must fit in memory
+            no range queries
+        Hash maps are 
+            bad for disks because data is distributed poorly (evenly) on disk due to the nature of the hash function
+            do not support range queries without doing o(n) processing
+        This causes hash maps to be stored on RAM; however, due to limited amount - only limited keys can fit on RAM
+        Downside is that RAM is NOT Persistent. 
+        Solve this issue by Write Ahead Log (WAL) - way for hashmap to provide durability
+
+    B Tree:
+        A tree structure that provides reference pointers to places in memory where key segments can be found
+        Traverse down the b tree in order to find specific data 
+        Pro:
+            more efficient read 
+            no limits to dataset size
+            Fast range queries
+        Con:
+            Slow Write - writes expensive due writes going straight to disk and self balancing nature of tree
+
+    LSM Tree
+        Balanced binary search tree, left smaller while right are larger
+        Also housed in memory; however, when tree reaches peak size then create SS tables
+        SSTable is created by a inorder conversion of the tree to a immutable list and stored on disk and RAM in memory tree is cleared
+        Subsequent reads are follow: 1. tree 2. sstables
+        Pro:
+            number of keys not limited by memory
+            faster writes vs b-tree but slower than hand index
+            supports range queries but slower than b tree as you have to iterate through sstable
+        con:
+            extra cpu usage for compaction of sstables 
+

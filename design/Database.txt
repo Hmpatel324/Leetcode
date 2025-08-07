@@ -1,0 +1,41 @@
+Databases
+----------
+
+
+ACID transaction performed by a database
+    Atomicity - all writes succeeds or none of them do
+    Consistency - all fails occur gracefully 
+    Isolation - No race conditions
+    Durability - committed writes not lost on disks
+
+
+Common Race Conditions:
+
+Dirty Write 
+is a write operation that causes a race condition on the same row due to a uncommitted write operation
+Solution - use a ROW LEVEL LOCK
+
+Dirty Read 
+Reading uncommitted data. Example of this would be a read in between a -/+ write operation therefore read is not a true read.
+Solution - use a ROW LEVEL LOCK (slow)
+           Store old value until commit goes through
+
+Read Skew
+High quantity number of reads occur during which a operation occurs in the middle to cause a change that is not egressed out
+Solution - DB Snapshot Isolation of operations with timestamps. Then have a snapshot time cutoff and exclude anything to the right of that time
+
+Write Skew
+Invariants are introduced as a result multiple write operations that in actuality require multiple locks (ER dr Active/Inactive) 
+    or new rows being written that conflict
+Solution: Multiple locks or prepoluating rows thus requiring attaining a lock
+
+
+Two Phase Locks (Reader and Writer Locks):
+Multiple reader locks exist but a reader lock can only UPGRADE to a writer lock once all reader locks are released 
+This may lead to Deadlocks - this slows down two phase locking
+    - option 1 - detect and cancel transaction
+    - option 2 - predicate locks: this is superset of needed locks
+Problems:
+    1. ALL transactions need to grab locks (SLOW) when you rarely actually need to
+
+

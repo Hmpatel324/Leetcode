@@ -1,0 +1,75 @@
+Database Replication
+--------------------
+
+With db replication:
+    Benefits: 
+    Geo-replication allows for redundant data so no data loss
+    Increased throughput bc each geo has its own db they interact with
+    Durability on fault
+
+Synchronous Replication (Strong Consistency):
+Update one db which then pushes update immediately to another db. The write is NOT valid until all replicas have the update. 
+Not possible to read STALE data
+Writes become extremely costly and slow as it requires a large penalty to wait for changes to make it to all DBs
+
+Asynchronous Replication (Eventual Consistency - preferred):
+Eventual asynchronous replication to another db
+Possible to read STALE data
+
+How to Optimize Asynchronous Consistency
+1. put a timestamp on a write then on a read check for a specific timestamp in order to ensure the changes propagated 
+2. Monotonic Writes
+    always connect a specific user with the same replica. This way data will remain consistent until updates arrives
+
+
+Single Leader Replication
+One leader (only db a user is able to write to) and multiple follower DBs
+Pro:
+Increased Durability (if one follower goes down then other followers still exist and are up)
+Increased Read throughput
+Simple setup
+Con:
+If network connection issue from leader occurs or leader does in fact go down then chaos
+If leader goes down and failover to another leader occurs then there will be dataloss
+Resurrected leader with the existence of a failover leader could create a SPLIT BRAIN scenario
+
+
+Multi Leader Replication
+Multiple Leader and follower dbs - Chaotic and everyone is sending to each other but suffer from write conflicts
+Pro:
+Greater write throughput
+Con
+Write Conflicts
+    
+Write Conflicts
+    Write to specific replica based on key - effectively partitioning [downside lowers write throughput]
+    Last Write Wins (LWW) Use timestamp [downside this is not very accurate / susceptible to hacking]
+    Version Vector - use counts to track number of delta per replication then share that
+    Store both then have user upon next read resolve
+    Conflict-free Replicated Data Types (CRDT) - having the database merge them
+        Operational CRDT: send operations that occur over the network
+            Pro: Concise o(n)
+            Con: Poor with CAUSAL operations => would lead NON idempotent results (add->delete does not equal delete->add)
+        State-Based CRDT: Send whole CRDT instead of operations therefore order does not matter
+            Pro: Works well with Gossip Protocol. This is allows for a large number of node dbs to send data to each other. 
+
+Leaderless Replication
+Examples: multiple open source dbs (cassandra, riak)
+No single leader, rather a update is committed to multiple dbs with a updated Version
+Updates propagated via:
+    Read Repair - user performs read on a stale value and sends to the stale db the actual updated value (based on the version) 
+                  however requires reading from a db that has been written to or sent updates to (no way to guarantee)
+    Anti-Entropy - Propagate changes in background. 
+                   Use Merkle Tree (nodes created by hashing rows/subtrees) to quickly identify subtree diffs.
+                   Identify diffs in o(log n) time as it is a tree comparison vs a linear scan
+    Quorum - Set a quorum value (W+R>N) where w is write nodes/r is read nodes therefore require w nodes to be written to and r nodes to read from
+
+How is data shared
+Circle Topology to pass in a circular manner around
+    drawback here is one node going down would cause sizeable failure
+Star Topology
+    drawback here is if center node goes down
+All to All Topology
+    All nodes communicate with each other but could lead to incorrect order of operations
+
+

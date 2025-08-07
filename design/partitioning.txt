@@ -1,0 +1,53 @@
+Partitioning
+------------
+
+Partitioning is the concept of SHARDING a single db node to several db nodes
+
+Options
+Range Based Partitioning:
+    Split db based on key ranges
+    Pro: similar keys on the same node, good locality for range queries
+    Con: Creates HOT and COLD spots - some replicas with high demand and some with low or no demand
+
+Hash Range Based Partitioning:
+    Hash of the key and find corresponding node
+    Pro: relative even distribution of keys with less hot spots
+    Con: no data locality for range queries
+
+Local Secondary 
+    Second index chosen to shard on which in turn store a SECOND copy of the data on the node
+    Pro: No need to perform any extra writes over the network as both done on one node
+    Con: To find all we need to read from every partition (drawback of being local)
+
+Global Secondary Index
+    Second index chosen to shard on which in turn store a SECOND copy on own node
+    Pro: Now reads using the second require reading from only one node
+    Con: We may have to write to multiple shards to account for primary and secondary index -> Need distributed Transaction
+
+----
+
+Two Phase Commit - distributed commits
+Have a commit log with messages to send to nodes. 
+A application or coordinator node ACQUIRES locks on the nodes.
+After all locks have been attained ONLY then does the update go through. 
+
+Con:
+    Large number of sources of failure (coordinator, replica, etc) 
+    This causes everything to lock up and become functionless
+
+----
+
+Rebalancing a DB:
+Sending data to another nodes in a distributed way
+
+Options:
+consistent hashing
+distribute keys evenly over the available nodes
+Use consistent hashing ring with evenly distributed nodes and buckets line up with clockwise region until next node
+Pro:
+    if a node goes down/comes up then NOT shifting keys on the circle but simply having another node pick up range
+
+Fixed nodes
+fan to evenly distributed fix node pool 
+
+Dynamic Partition

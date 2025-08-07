@@ -1,0 +1,11 @@
+Coordination Service
+--------------------
+
+A coordination service is a key-based store that allows us to store this data in a reliable way
+This tells our applications where replicas are found and other VITAL network information
+
+Built on top of a distributed consensus layer like Raft but the key result is linearizable data
+Accomplished through either:
+1. Read/Write on leader
+2. SYNC keyword to push updates from leader to follower and not to trust reader until you see sync
+

@@ -1,0 +1,35 @@
+Linearizable Storage
+-----------------
+
+A fault tolerant lock which keeps track operation order
+Key for a distributed system is to handle what occurs when nodes fail/handle that
+
+
+How to order writes:
+1. single leader replication: followers FOLLOW leader
+2. Multi leader / leaderless replication: use version vector on a agreed order or lamport clock
+    Lamport Time stamp assigns a value to a operation max(client,db)+1 then we establish a sort by counter then by node rule
+
+
+---
+
+Distributed Consensus - Raft
+
+build a distributed log (linearizable storage)
+stores `operation` and `term`
+Have a single leader and multiple followers; however, it is SLOW (SINGLE leader is the bottleneck)
+
+Raft Leader Election
+leader sends out heart beat to followers
+if follower does not receive request over a interval then it complains and requests a election
+During election if candidate has a high epoch or more up to date logs then follower responds back yes
+IF a node gets a quorom of yes then it is the new leader
+Epoch prevents old leader from coming back as leader
+
+Raft Writes
+Write is pushed to a majority of nodes.
+The write is not committed until there is a ack from majority of nodes (quorum)
+Writes are broken up into prefix and suffix
+    Analogy would be a binary search for missing item
+    if term AND value match then everything to the left (prefix) is accounted for
+    net new operations would be the items to the right (suffix)
