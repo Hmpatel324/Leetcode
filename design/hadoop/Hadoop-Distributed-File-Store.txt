@@ -1,0 +1,53 @@
+Hadoop Distributed File Store (HDFS)
+----------------------------
+
+Distributed file store with "rack awareness" storage
+As it is DISTRIBUTED, HDFS is fault tolerant. 
+
+Comprised of two major pieces:
+1. NameNode - Metadata
+2. DataNodes - For Storage
+
+---
+
+Architecture
+
+NameNode:
+main function is to be a metadata store
+Stores information on repicas with all files and version of those files
+Overall datanodes should be strong consistent therefore no parity issues between versions
+NameNode keeps all this information IN-Memory therefore Read/Write quick with a Write-Ahead-Log (WAL) on disk
+
+On startup - NameNode asks Datanodes, files contained and versions
+IF it detects a parity issue or files missing then it initializes a replication
+
+Failover for NameNode:
+push WAL to zookeeper (Service discovery mechanism) allows failover to a secondary NameNode and makes it primary
+
+DataNodes:
+regular nodes used for storage
+
+---
+
+Reading Files:
+With Big data primary use case we expect this to potentially be a frequent operation - CHEAP
+
+Flow:
+Client (read)-> NameNode
+NameNode -> returns back datanode replica closest (Geo to client)
+Client then CACHES the replica therefore future requests circumvent NameNode
+Client -> DataNode replica
+DataNode (data) -> to client
+
+---
+
+Writing Files:
+With Big data primary use case we expect infrequent writes - therefore this is EXPENSIVE
+
+Flow:
+Client (write)-> NameNode
+NameNode -> returns back datanode replica closest (Geo to client)
+Client -> DataNode replica
+hadoop performs Replication ACROSS replicas via replication pipeline with each replica ACKing after
+A->B->C C acks to B then acks to A then A acks to client
+If all replicas ACK back then first datanode replica responds with ACK to client

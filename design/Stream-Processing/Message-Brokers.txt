@@ -1,0 +1,19 @@
+In-Memory Message Broker [Azure Event Hub]:
+Operates on a server where queue is stored in-Memory
+Round robin delivery leads to more THROUGHPUT but can lead to out of memory processing
+
+Advantage:
+    Maximize throughput and order of processing DOES NOT matter
+    
+---
+
+Log Based Message Broker:
+Keeps messages in sequential order and processes in that order
+    downside is that there may be wait time for bottlenecks to finish
+Keeps track of what consumer is processing what in the message broker
+Messages kept on disk so can be replayed
+
+Advantage:
+    Want all items in queue handled by one consumer in order and has ability to replay
+    Important for SENSOR metrics or calculations for valid results
+

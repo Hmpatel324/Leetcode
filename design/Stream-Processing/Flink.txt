@@ -1,0 +1,13 @@
+Flink
+------
+
+Stream Messaging CONSUMER framework
+----
+
+Flink
+- Allows us to guarantee tat each message only affects state ONLY Once
+- Flink does this by checkpointing state into object storage 
+    - A Job Manager node at certain points sends a BARRIER MESSAGE to the consumer
+    - On Barrier message, the consumer snapshots STATE to object store
+- This ensures we do not have replace every single message in the event of a fault crashes
+- Useful technology for event processing

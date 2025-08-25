@@ -1,0 +1,33 @@
+Stream Processing
+-----------------
+
+Allows for reaction to a "event" in realtime
+Producer --> (Event) --> Consumer
+This does not scale IF Producer-Consumer connect DIRECTLY via tcp connection
+
+---
+
+Event/Message Brokers
+
+Broker sits in between Producers and consumers
+This allows for connection between Multiple producers and multiple consumers
+
+---
+
+Use Cases:
+- Metric / Logs
+- Change data capture
+- Event sourcing
+
+----
+
+Message Processing atleast Once
+
+Atleast Once: 
+    Broker needs to be FAULT TOLERANT
+    Some type of disk persistence if broker computer crashes
+    Offer replication if machine not recoverable
+    Allow for consumer acknowledgements
+
+Not More than Once for Processing:
+    Two phase commit (via a co-ordinator node) OR idempotence (design consumer to not processes repeats ie through some key) 

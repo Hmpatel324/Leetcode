@@ -1,0 +1,8 @@
+Hadoop
+------
+
+Highlevel: Distributed Computing Framework
+Couple main functions:
+- Data Storage [Hadoop Distributed File System HDFS]
+- Big Computation [MapReduce, Spark]
+

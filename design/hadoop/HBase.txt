@@ -1,0 +1,37 @@
+HBase
+-----
+
+Type of Storage mainly used for BIG data on HDFS
+Used to run analytical queries due to the column oriented storage schema
+Not as good as cassandra for a typical application (also uses LSM tree therefore favor writes)
+
+
+HBase Datamodel
+NoSql Wide Key Storage (similar to cassandra)
+
+---
+
+Architecture:
+
+NameNode:
+In memory metadata store
+Zookeeper allows for secondary namenodes (Fault Tolerance)
+NameNodes send writes to specific RegionNodes
+
+HBaseNode:
+Comprised of RegionNode AND DataNode which sit on SAME server
+
+RegionNode:
+Contains a LSM Tree (LSM tree keeps growing then flushes ENTIRE in memory to a sorted SSTable file on disk)
+RegionNodes push SSTable onto DataNode
+
+DataNode:
+Part of HDFS as such when SSTable lands onto DataNode it is replicated to other nodes
+replication conducted using replication pipeline (Fault Tolerance)
+
+
+---
+
+Column Oriented Storage:
+On disk all columns next to each other vertically
+This allows computation to be much quicker

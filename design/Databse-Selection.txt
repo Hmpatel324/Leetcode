@@ -1,0 +1,47 @@
+Database Selection
+-------------------
+
+Relational (SQL) 
+    - Various different Tables that have NORMALIZED data that are connected using Keys
+    - Main use when data is related/needs to be normalized/needs to be correct
+    Examples: MySql (two phase locking), PostgresSql (serializable snapshot isolation)
+
+Non-Relational (NoSql) 
+    - DENORMALIZED data
+    - Main use case is when data is DISJOINT
+    Example: 
+        MangoDB - It is a sql db but is a document db so offers flexibility
+                Data guaranteed similar to a sql db
+        Cassandra - Only two required fields (cluster key and sort key) and all other fields optional
+                    Configuration shared via gossip (sending what partition handles what index): all read/write go to ONE partition (not distributed)
+                    Replication: Leaderless replication with Read Repair (user sends back update) and Anti-Entropy (via merkle tree)
+                    Poor data guaranteed
+                    LSM Tree + SSTables - Write Optimized ie a facebook chat 
+
+
+
+
+Pro-Con:
+
+Relational (main use case is when data is related):
+    Pro:
+        Data is concise with few repeats
+
+    Con:
+        Tables could be located DIFFERENT nodes therefore require distributed transactions (2 phased commit)
+        Distributed Reads from multiple tables is slow
+
+NON-Relational (main use case is when data is DISJOINT):
+    Pro:
+        Better data locality
+    Con:
+        More repeats in data
+        Higher cost to send data over network as record size larger
+
+
+Common Feature
+
+Relational:
+    - B-Tree based indexes makes reads fast (over LSM tree with sstables)
+    - Single Leader Replication means no write conflicts
+    - Configurable isolation levels

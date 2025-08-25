@@ -1,0 +1,30 @@
+Spark
+-----
+
+Improvement on MapReduce
+performing big data batch computations
+
+---
+
+Advantages (solves MapReduce Problems):
+- FAST - computation jobs get started as soon as previous step is done (MapReduce waits for entire to get done)
+- Spark does not store intermediate data. Only INPUT and OUTPUT written to disk
+- Nodes do computation as soon as data is available
+- Overall jobs are composed of operators (does NOT require Map-Sort-Reduce etc every job - SORT is very costly) 
+- More performant and only stores intermediate in-memory
+
+---
+
+Narrow vs Wide dependency
+
+This issue arises due to intermediates being stored in memory
+if a intermediate node goes down then that data is lost
+
+Narrow
+if narrow then current node processing is dependent on only 1 previous node state
+as such, to mitigate, other nodes can perform that processing and pass to current
+
+Wide
+if wide then current node(s) processing is dependent on multiple previous node(s)
+if one previous goes down then this could be problematic and hard to recover
+Spark counters by detecting Wide Dependency, then data is written to Disk 

@@ -1,0 +1,29 @@
+MapReduce
+---------
+
+Very useful framework for performing big data batch computations on a schedule
+Can chain together multiple jobs to each other
+Work with data is ALREADY in HDFS
+
+Advantages:
+- Can run arbitrary code, just define mapper and reducer
+- Run computations on the same nodes that hold the data
+- Failed mappers or reducers are restarted independently
+    Mappers: Object => Key:Value pair
+    Reducer: [(key,value)] => (key,value)
+
+---
+
+Architecture
+
+        Unformatted -> Map -> Sort -> shuffle -> reduce (multiple instances of a key to 1 instance) -> Materialize
+Node 1
+Node 2
+Node 3
+
+* we SORT so we end computation of a single key/know to write it to disk for reduce then move onto next key
+
+Disadvantages:
+- Use chain jobs to achieve a complex computation but this creates idle time for downstream jobs waiting for upstream jobs
+- Each job requires a MAPPER and REDUCER (alot of unnecessary Sorting) - nlogn
+- Large disk usage to store intermediate state
